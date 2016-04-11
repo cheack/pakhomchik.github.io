@@ -100,21 +100,19 @@ $(function () {
     }
 
     function CanvasImage(x, y, image, drop) {
-        this.image = image;
+        var half_height = context.canvas.height / 2;
+        var half_width = context.canvas.width / 2;
 
-        if (this.image.width >= context.canvas.width / 2 || this.image.height >= context.canvas.height / 2) {
-            if (this.image.width >= context.canvas.width / 2) {
-                this.width = context.canvas.width / 2;
-                this.height = this.image.height * (this.width / this.image.width);
-            } else {
-                this.height = context.canvas.height / 2;
-                this.width = this.image.width * (this.height/ this.image.height);
-            }
+        if (image.width >= half_width || image.height >= half_height) {
+            var ration = Math.min(half_height / image.height, half_width / image.width);
+            this.height = image.height * ration;
+            this.width = image.width * ration;
         } else {
-            this.width = this.image.width;
-            this.height = this.image.height;
+            this.width = image.width;
+            this.height = image.height;
         }
 
+        this.image = image;
         this.x = x - (drop ? this.width/2 : 0);
         this.y = y - (drop ? this.height/2 : 0);
     }
